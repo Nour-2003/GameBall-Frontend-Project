@@ -1,0 +1,16 @@
+.nav-item {
+  transition: background-color 0.3s ease; /* Smooth transition for the background color */
+}
+
+.nav-item:hover {
+  background-color: #cfd6db; /* Darker background color on hover */
+}
+.nav-item:hover i {
+  transform: scale(1.1); /* Slightly increase the size of the icon on hover */
+  transition: transform 0.3s ease;
+}
+
+.nav-item:hover span {
+  color: #2f80ed; /* Change text color on hover (optional) */
+  transition: color 0.3s ease;
+}
