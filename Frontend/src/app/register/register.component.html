@@ -1,0 +1,84 @@
+<div class="container col-sm-12 col-md-8 col-lg-6 border rounded-5 bg-dark p-5">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <h1 class="text-center text-light pt-3">Register</h1>
+
+        <div class="row">
+            <div class="pt-3 text-light col-sm-12 col-md-6">
+                <div>
+                    <label for="name">Name</label>
+                </div>
+                <input type="text" formControlName="name" placeholder="Enter name" class="form-control" id="name" />
+                <div *ngIf="name?.invalid && name?.touched" class="text-danger">
+                    <small *ngIf="name?.errors?.['required']">Name is required</small>
+                </div>
+            </div>
+
+            <div class="pt-3 text-light col-sm-12 col-md-6">
+                <div>
+                    <label for="email">Email</label>
+                </div>
+                <input type="email" formControlName="email" placeholder="Enter email" class="form-control" id="email" />
+                <div *ngIf="email?.invalid && email?.touched" class="text-danger">
+                    <small *ngIf="email?.errors?.['required']">Email is required</small>
+                    <small *ngIf="email?.errors?.['email']">Please enter a valid email</small>
+                </div>
+            </div>
+
+            <div class="pt-3 text-light col-sm-12 col-md-6">
+                <div>
+                    <label for="password">Password</label>
+                </div>
+                <input type="password" formControlName="password" placeholder="Password" class="form-control"
+                    id="password" />
+                <div *ngIf="password?.invalid && password?.touched" class="text-danger">
+                    <small *ngIf="password?.errors?.['required']">Password is required</small>
+                    <small *ngIf="password?.errors?.['minlength']">
+                        Password must be at least 6 characters long
+                    </small>
+                </div>
+            </div>
+
+            <div class="pt-3 text-light col-sm-12 col-md-6">
+                <div>
+                    <label for="confirmPassword">Confirm Password</label>
+                </div>
+                <input type="password" formControlName="confirmPassword" placeholder="Confirm Password"
+                    class="form-control" id="confirmPassword" />
+                <div *ngIf="confirmPassword?.invalid && confirmPassword?.touched" class="text-danger">
+                    <small *ngIf="confirmPassword?.errors?.['required']">Confirm password is required</small>
+                    <small *ngIf="confirmPassword?.errors?.['mustMatch']">Passwords must match</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-3 text-light text-center">
+            <div>
+                <label for="gender" class="h4">Gender</label>
+            </div>
+            <div class="d-flex justify-content-evenly">
+                <label>
+                    <input type="radio" formControlName="gender" value="male" /> Male
+                </label>
+                <label>
+                    <input type="radio" formControlName="gender" value="female" /> Female
+                </label>
+            </div>
+            <div *ngIf="gender?.invalid && gender?.touched" class="text-danger">
+                <small *ngIf="gender?.errors?.['required']">Gender is required</small>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-center pt-3">
+            <button class="btn btn-warning w-25 rounded-5" type="submit" [disabled]="registerForm.invalid">
+                Register
+            </button>
+        </div>
+
+        <div class="d-flex justify-content-center pt-3">
+            <p class="text-center text-light">
+                Already have an account?
+                <a routerLink="/login" class="text-decoration-none text-warning">Login</a>
+            </p>
+        </div>
+    </form>
+</div>
