@@ -24,21 +24,21 @@ export class FriendsComponent {
       isFriend: true,
     },
     {
-      name: "Jane",
+      name: "Ali Khaled",
       description: "Close friend",
       image:
         "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
       isFriend: false,
     },
     {
-      name: "Mike",
+      name: "Moaz Emad",
       description: "Old friend",
       image:
         "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png",
       isFriend: true,
     },
     {
-      name: "Emily",
+      name: "Yasser",
       description: "Childhood friend",
       image:
         "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg",
