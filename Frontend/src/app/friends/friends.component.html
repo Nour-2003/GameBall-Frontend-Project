@@ -1,1 +1,12 @@
-<p>friends works!</p>
+<div class="row">
+  <!-- Loop through the friends list and pass the data to app-friend-card -->
+  <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let friend of friendsList">
+    <app-friend-card
+      [friendName]="friend.name"
+      [friendDescription]="friend.description"
+      [friendImage]="friend.image"
+      [isFriend]="friend.isFriend"
+    >
+    </app-friend-card>
+  </div>
+</div>

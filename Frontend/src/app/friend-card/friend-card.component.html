@@ -1,0 +1,15 @@
+<div class="card mt-2">
+  <img
+    src="{{friendImage}}"
+    class="card-img-top"
+    alt="Friend Image"
+    style="max-height: 350px; min-height: 350px;"
+  />
+  <div class="card-body">
+    <h5 class="card-title">{{ friendName }}</h5>
+    <p class="card-text">{{friendDescription}}</p>
+    <button class="btn btn-{{isFriend ? 'danger' : 'primary'}} w-100">
+      {{isFriend ? 'Unfollow' : 'Follow'}}
+    </button>
+  </div>
+</div>
