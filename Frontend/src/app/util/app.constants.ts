@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://cda1-102-43-5-37.ngrok-free.app/api/v1';
