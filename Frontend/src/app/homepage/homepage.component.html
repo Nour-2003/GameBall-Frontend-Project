@@ -3,8 +3,8 @@
     <app-createpost></app-createpost>
     <ng-container *ngFor="let post of posts">
       <app-post
-        [authorImage]="post.authorImage"
-        [authorName]="post.authorName"
+        [postAuthorImage]="post.authorImage"
+        [postAuthorName]="post.authorName"
         [postContent]="post.postContent"
         [postDate]="post.postDate"
         [postImage]="post.postImage"

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { NgFor } from "@angular/common";
 import { CommentComponent } from "../comment/comment.component";
-import { BASE_URL } from "../util/app.constants";
+import { BASE_URL, headers } from "../util/app.constants";
 import { FormsModule } from "@angular/forms";
 import { NgIf } from "@angular/common";
 
@@ -20,7 +20,7 @@ interface PostComment {
   templateUrl: "./post.component.html",
   styleUrls: ["./post.component.css"], 
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit{
   @Input() authorImage: string = "";
   @Input() authorName: string = "";
   @Input() postDate: string = "";
@@ -29,7 +29,8 @@ export class PostComponent implements OnInit {
   @Input() comments: any[] = [];
   @Input() postId: number = 0; 
   @Input() InProfile: boolean = false;
-  
+  @Input() postAuthorName: string = "";
+  @Input() postAuthorImage: string = "";
 
   userId: number = 0; 
 
@@ -61,7 +62,7 @@ export class PostComponent implements OnInit {
     console.log(this.userId);
     
 
-    this.http.post(`${BASE_URL}/posts/comments`, requestBody).subscribe({
+    this.http.post(`${BASE_URL}/posts/comments`, requestBody,{ headers}).subscribe({
       next: (response: any) => {
         console.log("Comment posted successfully", response); // Log response
         const newComment: PostComment = {
@@ -81,7 +82,7 @@ export class PostComponent implements OnInit {
 
   deletePost() {
     if (confirm("Are you sure you want to delete this post?")) {
-      this.http.delete(`${BASE_URL}/posts/${this.postId}`).subscribe({
+      this.http.delete(`${BASE_URL}/posts/${this.postId}`, {headers}).subscribe({
         next: (response: any) => {
           console.log("Post deleted successfully", response);
           

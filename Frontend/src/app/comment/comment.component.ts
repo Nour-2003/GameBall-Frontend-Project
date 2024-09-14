@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../util/app.constants';
 import { NgIf } from '@angular/common';
-
+import { headers } from '../util/app.constants';
 @Component({
   selector: 'app-comment',
   standalone: true,
@@ -24,8 +24,9 @@ export class CommentComponent {
     console.log(this.author,this.comment,this.postId,this.commentId);
     
     if (confirm("Are you sure you want to delete this comment?")) {
-      this.http.delete(`${BASE_URL}/posts/${this.postId}/comments`, {
-        body: { commendtId: this.commentId } 
+      this.http.delete(`${BASE_URL}/posts/${this.postId}/comments`,{
+        headers,
+        body: { commentId: this.commentId },
       }).subscribe({
         next: (response: any) => {
           console.log("Comment deleted successfully", response);

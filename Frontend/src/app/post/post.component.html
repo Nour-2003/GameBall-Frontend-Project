@@ -1,28 +1,36 @@
 <div class="col p-4 rounded-4 bg-white mt-2">
-  <div class="d-flex position-relative gap-3 ">
+  <div class="d-flex position-relative gap-3">
     <img
-      src="https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579_640.png"
-      style="width: 50px; height: 50px;"
+      [src]="
+        postAuthorImage
+          ? postAuthorImage
+          : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'
+      "
+      style="width: 50px; height: 50px; border-radius: 70%"
       alt="Image"
     />
     <div>
-      <h5>{{authorName}}</h5>
-      <p>{{postDate}}</p>
+      <h5>{{ postAuthorName }}</h5>
+      <p>{{ postDate }}</p>
     </div>
-    <button *ngIf="InProfile" class="btn position-absolute end-0" (click)="deletePost()">
+    <button
+      *ngIf="InProfile"
+      class="btn position-absolute end-0"
+      (click)="deletePost()"
+    >
       <i class="fas fa-trash fa-2x text-danger"></i>
     </button>
   </div>
   <div class="post-body">
-    <p>{{postContent}}</p>
+    <p>{{ postContent }}</p>
   </div>
   <div class="post-photo">
     <ng-container *ngIf="postImage">
       <img
-      style="max-height: 500px; border-radius: 15px;"
-      class="w-100 p-1"
-      src="{{postImage}}"
-      alt="Post Photo"
+        style="max-height: 500px; border-radius: 15px"
+        class="w-100 p-1"
+        src="{{ postImage }}"
+        alt="Post Photo"
       />
     </ng-container>
   </div>
@@ -30,10 +38,10 @@
     <div class="col-2 d-flex justify-content-end mt-2">
       <div class="row">
         <div class="col">
-          <i class="fa-solid fa-comment-dots fa-xl" style="color: #359fdc;"></i>
+          <i class="fa-solid fa-comment-dots fa-xl" style="color: #359fdc"></i>
         </div>
         <div class="col">
-          <p class="fw-bolder">{{comments.length}}</p>
+          <p class="fw-bolder">{{ comments.length }}</p>
         </div>
       </div>
     </div>
@@ -43,19 +51,19 @@
       >
         <div class="input-group search-bar rounded-pill">
           <input
-          type="text"
-          class="form-control border-0 shadow-none rounded-pill-end"
-          placeholder="Write Your comment"
-          [(ngModel)]="newCommentContent"
-          (keydown.enter)="postComment()"
-        />
-        <button class="btn btn-sm" (click)="postComment()">
-          <span
-            class="input-group-text bg-transparent border-0 rounded-pill-start"
-          >
-            <i class="fas fa-paper-plane fa-lg" style="color: #229654;"></i>
-          </span>
-        </button>
+            type="text"
+            class="form-control border-0 shadow-none rounded-pill-end"
+            placeholder="Write Your comment"
+            [(ngModel)]="newCommentContent"
+            (keydown.enter)="postComment()"
+          />
+          <button class="btn btn-sm" (click)="postComment()">
+            <span
+              class="input-group-text bg-transparent border-0 rounded-pill-start"
+            >
+              <i class="fas fa-paper-plane fa-lg" style="color: #229654"></i>
+            </span>
+          </button>
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostComponent } from '../post/post.component';
 import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../util/app.constants';
+import { BASE_URL, headers } from '../util/app.constants';
 
 interface Post {
   id: number;
@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit {
     email: string;
     phone: string;
     address: string;
+    profileImageUrl: string;
   } | null = null;
 
   posts: Post[] = [];
@@ -52,7 +53,7 @@ export class ProfileComponent implements OnInit {
 
   FetchPosts() {
     this.http
-      .get(`${BASE_URL}/posts/user/${this.user?.id}`)
+      .get(`${BASE_URL}/posts/user/${this.user?.id}`, { headers })
       .subscribe((response: any) => {
         console.log('Backend response:', response.body);
         this.posts = response.body.map(
@@ -60,11 +61,11 @@ export class ProfileComponent implements OnInit {
             console.log(response),
             {
               id: post.id, // Post ID from the backend
-              authorImage: post.profileImageUrl || 'assets/default.png',
-              authorName: this.user?.name || 'Unknown',
+              authorImage: post.profileImageUrl,
+              authorName: post.authorName || 'Unknown',
               postDate: new Date(post.publishedOn).toLocaleString(),
               postContent: post.content,
-              postImage: post.postImageUrl || 'assets/default-post-image.png',
+              postImage: post.postImageUrl,
               comments: post.comments.map(
                 (comment: any) => (
                   console.log('commsnted id', comment.id),
@@ -72,9 +73,7 @@ export class ProfileComponent implements OnInit {
                     commentId: comment.id,
                     content: comment.content,
                     authorName: comment.author.name || 'Unknown',
-                    authorImage:
-                      comment.author.profileImageUrl ||
-                      'assets/default-profile-image.png',
+                    authorImage: comment.author.profileImageUrl,
                     postId: post.id,
                     isAuth: comment.author.id === this.user?.id,
                   }

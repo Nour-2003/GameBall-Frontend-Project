@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { Router } from '@angular/router'; // For redirect after login
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { BASE_URL } from '../util/app.constants';
+import { BASE_URL, headers } from '../util/app.constants';
 
 @Component({
   selector: 'app-login',
@@ -37,7 +37,8 @@ export class LoginComponent {
 
   // Login function that sends data to backend
   login(data: { email: string; password: string }) {
-    this.http.post(`${BASE_URL}/users/login`, data) // Replace with your API URL
+    console.log(data);
+    this.http.post(`${BASE_URL}/users/login`, data ,{headers}) // Replace with your API URL
       .pipe(
         catchError(error => {
           console.error('Login error:', error);
@@ -52,6 +53,8 @@ export class LoginComponent {
           this.router.navigate(['/']);
         } else {
           console.log('Login failed');
+          console.log(response);
+          
         }
       });
   }

@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';  // Import HttpClientModule and HttpClient
 import { Router } from '@angular/router';  // Import Router for navigation
 import {BASE_URL}from '../util/app.constants';  // Import BASE_URL from app.constants.ts
+import { headers } from '../util/app.constants';  // Import headers from app.constants.ts
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -41,7 +42,7 @@ export class RegisterComponent {
       };
 
       // Send POST request
-      this.http.post(`${BASE_URL}/users/register`, requestData).subscribe(
+      this.http.post(`${BASE_URL}/users/register`, requestData, {headers}).subscribe(
         (response: any) => {
           console.log('User registered successfully:', response);
           this.router.navigate(['/login']);

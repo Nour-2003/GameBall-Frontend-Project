@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
-import { BASE_URL, user } from '../util/app.constants'; // Ensure BASE_URL is correct
+import { BASE_URL, headers, user } from '../util/app.constants'; // Ensure BASE_URL is correct
 
 @Component({
   selector: 'app-friend-card',
@@ -34,7 +34,7 @@ export class FriendCardComponent {
 
   addFriend(data: { senderId: number; receiverId: number }) {
     this.http
-      .post(`${BASE_URL}/follow-management/follow`, data) 
+      .post(`${BASE_URL}/follow-management/follow`, data, {headers}) 
       .subscribe(() => {
         this.isFriend = true;
         this.friendDescription = 'Friend';
@@ -43,7 +43,7 @@ export class FriendCardComponent {
 
   removeFriend(data: { senderId: number; receiverId: number }) {
     this.http
-      .post(`${BASE_URL}/follow-management/unfollow`, data) 
+      .post(`${BASE_URL}/follow-management/unfollow`, data, {headers}) 
       .subscribe(() => {
         this.isFriend = false;
         this.friendDescription = 'Not a friend';
