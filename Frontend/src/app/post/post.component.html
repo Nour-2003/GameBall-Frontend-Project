@@ -1,5 +1,5 @@
 <div class="col p-4 rounded-4 bg-white mt-2">
-  <div class="d-flex gap-3">
+  <div class="d-flex position-relative gap-3 ">
     <img
       src="https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579_640.png"
       style="width: 50px; height: 50px;"
@@ -9,6 +9,9 @@
       <h5>{{authorName}}</h5>
       <p>{{postDate}}</p>
     </div>
+    <button *ngIf="InProfile" class="btn position-absolute end-0" (click)="deletePost()">
+      <i class="fas fa-trash fa-2x text-danger"></i>
+    </button>
   </div>
   <div class="post-body">
     <p>{{postContent}}</p>
@@ -16,7 +19,7 @@
   <div class="post-photo">
     <ng-container *ngIf="postImage">
       <img
-      style="max-height: 350px; border-radius: 15px;"
+      style="max-height: 500px; border-radius: 15px;"
       class="w-100 p-1"
       src="{{postImage}}"
       alt="Post Photo"
@@ -63,5 +66,8 @@
     [author]="comment.authorName"
     [comment]="comment.content"
     [authorImage]="comment.authorImage"
+    [postId]="postId"
+    [commentId]="comment.commentId"
+    [IsAuth]="comment.isAuth"
   ></app-comment>
 </div>

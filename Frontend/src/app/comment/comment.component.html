@@ -9,9 +9,12 @@
       />
     </div>
     <div class="col">
-      <div class="comment-box p-3 rounded" style="background-color: #f3f6f8;">
+      <div class="comment-box position-relative p-3 rounded" style="background-color: #f3f6f8;">
         <h6 class="author-name mb-1">{{author}}</h6>
         <p class="mb-0">{{comment}}</p>
+        <button *ngIf="IsAuth" class="btn position-absolute end-0 bottom-0" (click)="deleteComment()">
+          <i class="fas fa-trash fa-2x text-danger"></i>
+        </button>
       </div>
     </div>
   </div>

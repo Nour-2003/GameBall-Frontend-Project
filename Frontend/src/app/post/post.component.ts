@@ -10,6 +10,7 @@ interface PostComment {
   authorImage: string;
   authorName: string;
   content: string;
+  
 }
 
 @Component({
@@ -25,8 +26,11 @@ export class PostComponent implements OnInit {
   @Input() postDate: string = "";
   @Input() postContent: string = "";
   @Input() postImage: string = "";
-  @Input() comments: PostComment[] = [];
+  @Input() comments: any[] = [];
   @Input() postId: number = 0; 
+  @Input() InProfile: boolean = false;
+  
+
   userId: number = 0; 
 
   newCommentContent: string = ''; 
@@ -74,4 +78,19 @@ export class PostComponent implements OnInit {
       }
     });
   }
+
+  deletePost() {
+    if (confirm("Are you sure you want to delete this post?")) {
+      this.http.delete(`${BASE_URL}/posts/${this.postId}`).subscribe({
+        next: (response: any) => {
+          console.log("Post deleted successfully", response);
+          
+        },
+        error: (error) => {
+          console.error("Error deleting post", error);
+        }
+      });
+    }
+  }
+
 }
