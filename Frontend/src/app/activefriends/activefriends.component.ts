@@ -1,12 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BASE_URL, user } from '../util/app.constants';
+import { NgFor } from '@angular/common'; // Import NgFor
 
 @Component({
   selector: 'app-activefriends',
   standalone: true,
-  imports: [],
+  imports: [NgFor], // Import NgFor here
   templateUrl: './activefriends.component.html',
-  styleUrl: './activefriends.component.css'
+  styleUrls: ['./activefriends.component.css']
 })
-export class ActivefriendsComponent {
+export class ActivefriendsComponent implements OnInit {
+  activeFriends: { name: string; profileImageUrl: string }[] = [];
 
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.fetchActiveFriends();
+  }
+
+  fetchActiveFriends() {
+    this.http.get(`${BASE_URL}/follow-management/following/${user?.id}`).subscribe((response: any) => {
+      this.activeFriends = response.body.map((friend: any) => ({
+        name: friend.name,
+        profileImageUrl: friend.profileImageUrl,
+      }));
+    });
+  }
 }

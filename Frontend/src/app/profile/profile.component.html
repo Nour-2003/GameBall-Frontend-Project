@@ -10,13 +10,14 @@
     </div>
 
     <div class="col-md-8 col-lg-9">
-      <h1 class="display-4 mb-3">Nour eldin</h1>
-      <p class="text-muted lead mb-4">noureldeanh&#64;gmail.com</p>
+      <!-- get the data from local storge -->
+      <h1 class="display-4 mb-3">{{user?.name}}</h1>
+      <p class="text-muted lead mb-4">{{user?.email}}</p>
 
       <div>
-        <p class="mb-2"><strong>Phone:</strong> +1 (20) 01203299971</p>
+        <p class="mb-2"><strong>Phone:</strong> {{user?.phone}}</p>
         <p class="mb-2">
-          <strong>Address:</strong> El-Obour City - Cairo - Egypt
+          <strong>Address:</strong> {{user?.address}}
         </p>
       </div>
     </div>
@@ -36,6 +37,8 @@
           [postDate]="post.postDate"
           [postImage]="post.postImage"
           [comments]="post.comments"
+          [postId]="post.id"
+          
         ></app-post>
       </ng-container>
     </div>

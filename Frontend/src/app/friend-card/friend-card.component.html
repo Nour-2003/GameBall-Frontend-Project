@@ -8,7 +8,9 @@
   <div class="card-body">
     <h5 class="card-title">{{ friendName }}</h5>
     <p class="card-text">{{friendDescription}}</p>
-    <button class="btn btn-{{isFriend ? 'danger' : 'primary'}} w-100">
+    <button 
+      class="btn btn-{{isFriend ? 'danger' : 'primary'}} w-100" 
+      (click)="handleFriends()">
       {{isFriend ? 'Unfollow' : 'Follow'}}
     </button>
   </div>
