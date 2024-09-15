@@ -10,7 +10,6 @@ interface PostComment {
   authorImage: string;
   authorName: string;
   content: string;
-  
 }
 
 @Component({
@@ -20,7 +19,7 @@ interface PostComment {
   templateUrl: "./post.component.html",
   styleUrls: ["./post.component.css"], 
 })
-export class PostComponent implements OnInit{
+export class PostComponent implements OnInit {
   @Input() authorImage: string = "";
   @Input() authorName: string = "";
   @Input() postDate: string = "";
@@ -35,6 +34,8 @@ export class PostComponent implements OnInit{
   userId: number = 0; 
 
   newCommentContent: string = ''; 
+  isEditing: boolean = false; // Flag for edit mode
+  editedContent: string = ''; // Store edited content
 
   constructor(private http: HttpClient) {}
 
@@ -59,10 +60,7 @@ export class PostComponent implements OnInit{
       userId: this.userId,
     };
 
-    console.log(this.userId);
-    
-
-    this.http.post(`${BASE_URL}/posts/comments`, requestBody,{ headers}).subscribe({
+    this.http.post(`${BASE_URL}/posts/comments`, requestBody, { headers }).subscribe({
       next: (response: any) => {
         console.log("Comment posted successfully", response); // Log response
         const newComment: PostComment = {
@@ -82,7 +80,7 @@ export class PostComponent implements OnInit{
 
   deletePost() {
     if (confirm("Are you sure you want to delete this post?")) {
-      this.http.delete(`${BASE_URL}/posts/${this.postId}`, {headers}).subscribe({
+      this.http.delete(`${BASE_URL}/posts/${this.postId}`, { headers }).subscribe({
         next: (response: any) => {
           console.log("Post deleted successfully", response);
           
@@ -94,4 +92,38 @@ export class PostComponent implements OnInit{
     }
   }
 
+  updatePost(updatedContent: string) {
+    if (!updatedContent.trim()) {
+      console.error("Updated content is empty");
+      return;
+    }
+
+    const requestBody = {
+      content: updatedContent,
+    };
+
+    this.http.put(`${BASE_URL}/posts/${this.postId}`, requestBody, { headers }).subscribe({
+      next: (response: any) => {
+        console.log("Post updated successfully", response);
+        this.postContent = updatedContent; // Update local postContent
+        this.isEditing = false; // Exit edit mode
+      },
+      error: (error) => {
+        console.error("Error updating post", error);
+      }
+    });
+  }
+
+  startEditing() {
+    this.isEditing = true;
+    this.editedContent = this.postContent; // Load current content into the editor
+  }
+
+  saveEdit() {
+    this.updatePost(this.editedContent);
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+  }
 }
