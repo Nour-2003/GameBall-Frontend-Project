@@ -18,6 +18,7 @@ export class CreatepostComponent implements OnInit {
   userId: number | null = null; 
   userProfileImage: string | null = null; 
   imagePreviewUrl: string | null = null; 
+  isLoading: boolean = false; // Add loading state
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
@@ -52,7 +53,8 @@ export class CreatepostComponent implements OnInit {
       return;
     }
 
-    
+    this.isLoading = true; // Set loading state
+
     const formData = new FormData();
     formData.append('Content', this.postContent);
     formData.append('UserId', String(this.userId)); 
@@ -64,9 +66,11 @@ export class CreatepostComponent implements OnInit {
       next: (response) => {
         console.log('Post created successfully', response);
         this.resetForm();
+        this.isLoading = false; // Reset loading state
       },
       error: (error) => {
         console.error('Error creating post', error);
+        this.isLoading = false; // Reset loading state
       },
     });
   }

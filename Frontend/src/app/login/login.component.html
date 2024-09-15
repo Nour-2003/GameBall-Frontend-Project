@@ -2,6 +2,11 @@
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit() ">
         <h1 class="text-center text-light pt-3 px-4">Login</h1>
 
+        <!-- Display error message -->
+        <div *ngIf="errorMessage" class="text-danger text-center mb-3">
+            <small>{{ errorMessage }}</small>
+        </div>
+
         <div class="pt-3 px-4 text-light">
             <div>
                 <label for="email">Email</label>
@@ -28,8 +33,9 @@
         </div>
 
         <div class="d-flex justify-content-center pt-4">
-            <button class="btn btn-warning w-25 rounded-5" type="submit" [disabled]="loginForm.invalid">
-                Login
+            <button class="btn btn-warning w-25 rounded-5 position-relative" type="submit" [disabled]="loginForm.invalid || loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span *ngIf="!loading">Login</span>
             </button>
         </div>
 

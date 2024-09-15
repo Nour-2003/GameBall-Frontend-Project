@@ -19,6 +19,8 @@ import { UserService } from '../user.service'; // Import UserService
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  errorMessage: string | null = null; // Add errorMessage property
+  loading: boolean = false; // Add loading property
 
   constructor(
     private fb: FormBuilder, 
@@ -41,15 +43,18 @@ export class LoginComponent {
   }
 
   login(data: { email: string; password: string }) {
-    console.log(data);
+    this.loading = true; // Show loader
     this.http.post(`${BASE_URL}/users/login`, data, { headers }) 
       .pipe(
         catchError(error => {
           console.error('Login error:', error);
+          this.errorMessage = 'An error occurred during login. Please try again.';
+          this.loading = false; // Hide loader
           return of(null); 
         })
       )
       .subscribe(response => {
+        this.loading = false; // Hide loader
         if (response && (response as any).statusCode === 201) {
           const responseBody = (response as any).body;
           console.log(responseBody);
@@ -58,6 +63,7 @@ export class LoginComponent {
           this.router.navigate(['home']);
         } else {
           console.log('Login failed');
+          this.errorMessage = 'Invalid email or password. Please try again.';
           console.log(response);
         }
       });

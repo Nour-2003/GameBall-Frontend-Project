@@ -3,19 +3,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { HttpClientModule, HttpClient } from '@angular/common/http';  // Import HttpClientModule and HttpClient
-import { Router } from '@angular/router';  // Import Router for navigation
-import {BASE_URL}from '../util/app.constants';  // Import BASE_URL from app.constants.ts
-import { headers } from '../util/app.constants';  // Import headers from app.constants.ts
+import { HttpClientModule, HttpClient } from '@angular/common/http';  
+import { Router } from '@angular/router';  
+import { BASE_URL, headers } from '../util/app.constants';  
+
 @Component({
   selector: 'app-register',
   standalone: true,
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, HttpClientModule],  // Add HttpClientModule here
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, HttpClientModule],
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  loading: boolean = false; // Add loading state
+  errorMessage: string | null = null; // Add error message state
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
     this.registerForm = this.fb.group({
@@ -24,7 +26,7 @@ export class RegisterComponent {
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
       gender: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern('^01[0-9]{9}$')]],  // Phone number validation: must start with 01 and have 11 digits
+      phone: ['', [Validators.required, Validators.pattern('^01[0-9]{9}$')]],
       address: ['', [Validators.required]]
     }, {
       validator: this.matchPasswords('password', 'confirmPassword')
@@ -33,6 +35,9 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
+      this.loading = true; // Show loader
+      this.errorMessage = null; // Reset error message
+
       const requestData = {
         name: this.registerForm.value.name,
         email: this.registerForm.value.email,
@@ -41,16 +46,23 @@ export class RegisterComponent {
         address: this.registerForm.value.address
       };
 
-      // Send POST request
       this.http.post(`${BASE_URL}/users/register`, requestData, {headers}).subscribe(
         (response: any) => {
-          console.log('User registered successfully:', response);
-          this.router.navigate(['/login']);
+          if(response.statusCode === 201) {
+            console.log('User registered successfully:', response);
+            this.router.navigate(['/login']);
+          }else{
+            console.error('Registration failed:', response);
+            this.errorMessage = response.message;
+          }
         },
         (error) => {
           console.error('Error during registration:', error);
+          this.errorMessage = 'Registration failed. Please try again.';
         }
-      );
+      ).add(() => {
+        this.loading = false; // Hide loader after response
+      });
     } else {
       console.log('Form is invalid');
     }
@@ -77,7 +89,6 @@ export class RegisterComponent {
     };
   }
 
-  // Form control getters
   get name() { return this.registerForm.get('name'); }
   get email() { return this.registerForm.get('email'); }
   get password() { return this.registerForm.get('password'); }
