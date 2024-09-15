@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { user } from '../util/app.constants';
+import { getUser, user } from '../util/app.constants';
 import { NgIf } from '@angular/common';
 @Component({
   selector: 'app-navbar',
@@ -13,7 +13,7 @@ export class NavbarComponent implements OnInit {
   user: any = null;
   ngOnInit(): void {
     this.image = user?.profileImageUrl 
-    this.user = user;
+    this.user = getUser();
   }
 
 }

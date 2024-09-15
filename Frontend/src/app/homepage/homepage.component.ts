@@ -4,7 +4,7 @@ import { PostComponent } from '../post/post.component';
 import { ActivefriendsComponent } from '../activefriends/activefriends.component';
 import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL, headers, user } from '../util/app.constants';
+import { BASE_URL, headers, getUser } from '../util/app.constants';
 
 interface Post {
   authorImage: string;
@@ -31,17 +31,20 @@ interface PostComment {
 })
 export class HomepageComponent implements OnInit {
   posts: Post[] = [];
-  user = user;
-  constructor(private http: HttpClient) {}
-
+  constructor(private http: HttpClient) {
+    
+  }
+  user: any
   ngOnInit(): void {
-   
+    this.user = getUser();
+    console.log(this.user);
+    
     this.FetchPosts();
   }
 
   
   FetchPosts() {
-    this.http.get(`${BASE_URL}/posts/home/${user?.id}`, {headers}).subscribe((response: any) => {
+    this.http.get(`${BASE_URL}/posts/home/${this.user?.id}`, {headers}).subscribe((response: any) => {
       this.posts = response.body.map((post: any) => (console.log(post.authorName)
       ,{
         id: post.id,

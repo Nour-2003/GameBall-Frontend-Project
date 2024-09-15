@@ -6,40 +6,38 @@ import { PageNotFoundComponent } from "./page-not-found/page-not-found.component
 import { FriendsComponent } from "./friends/friends.component";
 import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
-import { getUser } from "./util/app.constants"; // Import the getUser function
+import { getUser } from "./util/app.constants"; 
 
-// Guard to protect routes if user is not logged in
 const authGuard = () => {
   const router = inject(Router);
-  const user = getUser(); // Use the getUser function
+  const user = getUser(); 
 
   if (user) {
-    return true; // Allow access if user exists
+    return true; 
   } else {
-    router.navigate(['/login']); // Redirect to login if user is null
+    router.navigate(['/login']); 
     return false;
   }
 };
 
-// Guard to prevent access to login/register if user is already logged in
 const authReverseGuard = () => {
   const router = inject(Router);
-  const user = getUser(); // Use the getUser function
+  const user = getUser();
 
   if (user) {
-    router.navigate(['/home']); // Redirect to home if user is already logged in
+    router.navigate(['/home']); 
     return false;
   } else {
-    return true; // Allow access if no user is logged in
+    return true; 
   }
 };
 
 export const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
-  { path: "home", component: HomepageComponent, canActivate: [authGuard] }, // Protect this route
-  { path: "friends", component: FriendsComponent, canActivate: [authGuard] }, // Protect this route
-  { path: "profile", component: ProfileComponent, canActivate: [authGuard] }, // Protect this route
-  { path: "login", component: LoginComponent, canActivate: [authReverseGuard] }, // Prevent access if logged in
-  { path: "register", component: RegisterComponent, canActivate: [authReverseGuard] }, // Prevent access if logged in
+  { path: "home", component: HomepageComponent, canActivate: [authGuard] }, 
+  { path: "friends", component: FriendsComponent, canActivate: [authGuard] },
+  { path: "profile", component: ProfileComponent, canActivate: [authGuard] },
+  { path: "login", component: LoginComponent, canActivate: [authReverseGuard] }, 
+  { path: "register", component: RegisterComponent, canActivate: [authReverseGuard] }, 
   { path: "**", component: PageNotFoundComponent },
 ];

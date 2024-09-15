@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { HttpClient } from '@angular/common/http'; // Import HttpClient
-import { Router } from '@angular/router'; // For redirect after login
+import { HttpClient } from '@angular/common/http'; 
+import { Router } from '@angular/router'; 
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { BASE_URL, headers,user } from '../util/app.constants';
@@ -28,29 +28,28 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      // Call the login function
       this.login(this.loginForm.value);
     } else {
       console.log('Form is invalid');
     }
   }
 
-  // Login function that sends data to backend
   login(data: { email: string; password: string }) {
     console.log(data);
-    this.http.post(`${BASE_URL}/users/login`, data ,{headers}) // Replace with your API URL
+    this.http.post(`${BASE_URL}/users/login`, data ,{headers}) 
       .pipe(
         catchError(error => {
           console.error('Login error:', error);
-          return of(null); // Handle errors
+          return of(null); 
         })
       )
       .subscribe(response => {
         if (response && (response as any).statusCode === 201) {
           const responseBody = (response as any).body;
           console.log(responseBody);
-          localStorage.setItem('user', JSON.stringify(responseBody)); // Store user after login
-          this.router.navigate(['home']);
+          localStorage.setItem('user', JSON.stringify(responseBody)); 
+          
+          this.router.navigate([`home`]);
           
         } else {
           console.log('Login failed');

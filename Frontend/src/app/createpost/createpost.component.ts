@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { BASE_URL, headers, user } from '../util/app.constants'; // Replace with your actual BASE_URL
+import { BASE_URL, getUser, headers, user } from '../util/app.constants'; // Replace with your actual BASE_URL
 import { NgIf } from '@angular/common'; // You may use this for conditional rendering
 @Component({
   selector: 'app-createpost',
@@ -13,7 +13,7 @@ import { NgIf } from '@angular/common'; // You may use this for conditional rend
 export class CreatepostComponent implements OnInit{
   postContent: string = ''; // Holds the content of the post
   selectedImage: File | null = null; // Holds the selected image file
-  userId = user?.id;
+  userId = getUser()?.id;
   
   constructor(private http: HttpClient) {
     console.log('userId', this.userId);
@@ -21,7 +21,7 @@ export class CreatepostComponent implements OnInit{
   
   image : any = null;
   ngOnInit(): void {
-    this.image = user?.profileImageUrl
+    this.image = getUser()?.profileImageUrl
   }
 
   // Function to handle file input change
