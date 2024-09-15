@@ -1,23 +1,28 @@
-import { Component } from '@angular/core';
+// src/app/app.component.ts
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from "./navbar/navbar.component";
-import { SidebarComponent } from "./sidebar/sidebar.component";
-import { HttpClientModule } from '@angular/common/http';  // Import HttpClientModule
+import { NavbarComponent } from './navbar/navbar.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { HttpClientModule } from '@angular/common/http';
 import { NgClass, NgIf } from '@angular/common';
-import { getUser } from './util/app.constants';
-
+import { UserService } from './user.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, SidebarComponent,HttpClientModule,NgClass,NgIf],
+  imports: [RouterOutlet, NavbarComponent, SidebarComponent, HttpClientModule, NgClass, NgIf],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Frontend';
   user: any = null;
+
+  constructor(private userService: UserService) {}
+
   ngOnInit(): void {
-    this.user = getUser();
+    this.userService.getUser().subscribe(user => {
+      this.user = user;
+    });
   }
 }

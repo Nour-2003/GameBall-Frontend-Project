@@ -7,7 +7,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'; 
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { BASE_URL, headers,user } from '../util/app.constants';
+import { BASE_URL, headers } from '../util/app.constants';
+import { UserService } from '../user.service'; // Import UserService
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,12 @@ import { BASE_URL, headers,user } from '../util/app.constants';
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
+  constructor(
+    private fb: FormBuilder, 
+    private http: HttpClient, 
+    private router: Router,
+    private userService: UserService // Inject UserService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -36,7 +42,7 @@ export class LoginComponent {
 
   login(data: { email: string; password: string }) {
     console.log(data);
-    this.http.post(`${BASE_URL}/users/login`, data ,{headers}) 
+    this.http.post(`${BASE_URL}/users/login`, data, { headers }) 
       .pipe(
         catchError(error => {
           console.error('Login error:', error);
@@ -48,13 +54,11 @@ export class LoginComponent {
           const responseBody = (response as any).body;
           console.log(responseBody);
           localStorage.setItem('user', JSON.stringify(responseBody)); 
-          
-          this.router.navigate([`home`]);
-          
+          this.userService.setUser(responseBody); // Update user in UserService
+          this.router.navigate(['home']);
         } else {
           console.log('Login failed');
           console.log(response);
-          
         }
       });
   }
