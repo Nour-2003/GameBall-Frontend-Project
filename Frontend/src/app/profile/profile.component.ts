@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { PostComponent } from '../post/post.component';
 import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { BASE_URL, headers } from '../util/app.constants';
+import { BASE_URL, headers,user } from '../util/app.constants';
 
 interface Post {
   id: number;
@@ -31,22 +31,11 @@ interface PostComment {
 export class ProfileComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    profileImageUrl: string;
-  } | null = null;
-
+  user=user;
   posts: Post[] = [];
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      this.user = JSON.parse(userData);
-    }
+  
 
     this.FetchPosts();
   }

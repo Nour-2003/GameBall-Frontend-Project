@@ -31,25 +31,15 @@ interface PostComment {
 })
 export class HomepageComponent implements OnInit {
   posts: Post[] = [];
-
+  user = user;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('user');
-    if (userData) {
-      this.user = JSON.parse(userData);
-    }
+   
     this.FetchPosts();
   }
 
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-  } | null = null;
-
+  
   FetchPosts() {
     this.http.get(`${BASE_URL}/posts/home/${user?.id}`, {headers}).subscribe((response: any) => {
       this.posts = response.body.map((post: any) => (console.log(post.authorName)

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http'; // Import HttpClient
 import { Router } from '@angular/router'; // For redirect after login
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { BASE_URL, headers } from '../util/app.constants';
+import { BASE_URL, headers,user } from '../util/app.constants';
 
 @Component({
   selector: 'app-login',
@@ -49,8 +49,9 @@ export class LoginComponent {
         if (response && (response as any).statusCode === 201) {
           const responseBody = (response as any).body;
           console.log(responseBody);
-          localStorage.setItem('user',JSON.stringify(responseBody));
-          this.router.navigate(['/']);
+          localStorage.setItem('user', JSON.stringify(responseBody)); // Store user after login
+          this.router.navigate(['home']);
+          
         } else {
           console.log('Login failed');
           console.log(response);
