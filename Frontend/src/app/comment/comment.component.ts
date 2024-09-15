@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL, headers } from '../util/app.constants';
 import { NgIf } from '@angular/common';
@@ -18,13 +18,14 @@ export class CommentComponent {
   @Input() commentId: number = 0;
   @Input() postId: number = 0;
   @Input() IsAuth: boolean = false;
+  @Output() commentDeleted = new EventEmitter<number>();
 
-  isEditing: boolean = false; // Flag for edit mode
-  editedComment: string = ''; // Store edited content
+  isEditing: boolean = false; 
+  editedComment: string = ''; 
 
   constructor(private http: HttpClient) {}
 
-  // Delete Comment Method
+  
   deleteComment() {
     if (confirm("Are you sure you want to delete this comment?")) {
       this.http.delete(`${BASE_URL}/posts/${this.postId}/comments`, {
@@ -33,6 +34,7 @@ export class CommentComponent {
       }).subscribe({
         next: (response: any) => {
           console.log("Comment deleted successfully", response);
+          this.commentDeleted.emit(this.commentId);  // Emit the comment ID to the parent component
         },
         error: (error) => {
           console.error("Error deleting comment", error);
@@ -41,13 +43,11 @@ export class CommentComponent {
     }
   }
 
-  // Start Edit Mode
   startEditing() {
     this.isEditing = true;
-    this.editedComment = this.comment; // Load the current comment into the editor
+    this.editedComment = this.comment; 
   }
 
-  // Update Comment Method
   updateComment(updatedContent: string) {
     const requestBody = {
       commendtId: this.commentId,
@@ -57,8 +57,8 @@ export class CommentComponent {
     this.http.put(`${BASE_URL}/posts/${this.postId}/comments`, requestBody, { headers }).subscribe({
       next: (response: any) => {
         console.log("Comment updated successfully", response);
-        this.comment = updatedContent; // Update the local comment content
-        this.isEditing = false; // Exit edit mode
+        this.comment = updatedContent; 
+        this.isEditing = false; 
       },
       error: (error) => {
         console.error("Error updating comment", error);
@@ -66,7 +66,6 @@ export class CommentComponent {
     });
   }
 
-  // Save the Edited Comment
   saveEdit() {
     if (!this.editedComment.trim()) {
       console.error("Edited content is empty");
@@ -75,7 +74,6 @@ export class CommentComponent {
     this.updateComment(this.editedComment);
   }
 
-  // Cancel Edit Mode
   cancelEdit() {
     this.isEditing = false;
   }

@@ -3,8 +3,8 @@ import { PostComponent } from '../post/post.component';
 import { NgFor, NgIf } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL, headers } from '../util/app.constants';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { UserService } from '../user.service'; // Import UserService
+import { FormsModule } from '@angular/forms'; 
+import { UserService } from '../user.service';
 
 interface Post {
   id: number;
@@ -28,13 +28,12 @@ interface PostComment {
   standalone: true,
   imports: [PostComponent, NgFor, FormsModule, NgIf],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'], // Changed to plural (styleUrls)
+  styleUrls: ['./profile.component.css'], 
 })
 export class ProfileComponent implements OnInit {
   posts: Post[] = [];
   user: any = null;
 
-  // Fields for editing profile
   editMode: boolean = false;
   name: string = '';
   email: string = '';
@@ -54,7 +53,7 @@ export class ProfileComponent implements OnInit {
         this.phone = this.user.phone;
         this.address = this.user.address;
 
-        this.FetchPosts(); // Fetch posts after user data is loaded
+        this.FetchPosts();
       }
     });
   }
@@ -137,5 +136,10 @@ export class ProfileComponent implements OnInit {
   // Toggle edit mode
   toggleEditMode() {
     this.editMode = !this.editMode;
+  }
+
+  // Handle post deletion
+  onPostDeleted(postId: number) {
+    this.posts = this.posts.filter(post => post.id !== postId);
   }
 }
