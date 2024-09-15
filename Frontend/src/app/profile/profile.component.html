@@ -1,45 +1,65 @@
 <div class="container mt-3 me-5 p-5 bg-white rounded-4">
   <div class="row">
     <div class="col-md-4 col-lg-3 text-center text-md-start">
-      <img
-        src={{user?.profileImageUrl}}
-        alt="Friend Profile Image"
-        class="img-fluid rounded-circle"
-        style="width: 200px; height: 200px;"
-      />
+      <img [src]="user?.profileImageUrl || 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'"
+        alt="Profile Image" class="img-fluid rounded-circle" style="width: 200px; height: 200px;" />
     </div>
 
     <div class="col-md-8 col-lg-9">
-      <!-- get the data from local storge -->
-      <h1 class="display-4 mb-3">{{user?.name}}</h1>
-      <p class="text-muted lead mb-4">{{user?.email}}</p>
+      <!-- Edit Profile Form -->
+      <ng-container *ngIf="editMode; else viewMode">
+        <form (submit)="updateProfile()" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="name" name="name" id="name" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" [(ngModel)]="email" name="email" id="email" required />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password (Leave blank to keep current)</label>
+            <input type="password" class="form-control" [(ngModel)]="password" name="password" id="password" />
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="tel" class="form-control" [(ngModel)]="phone" name="phone" id="phone" required />
+          </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">Address</label>
+            <input type="text" class="form-control" [(ngModel)]="address" name="address" id="address" required />
+          </div>
+          <div class="mb-3">
+            <label for="profileImage" class="form-label">Profile Image</label>
+            <input type="file" class="form-control" (change)="onFileSelected($event)" id="profileImage" />
+          </div>
 
-      <div>
-        <p class="mb-2"><strong>Phone:</strong> {{user?.phone}}</p>
-        <p class="mb-2">
-          <strong>Address:</strong> {{user?.address}}
-        </p>
-      </div>
+          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">Cancel</button>
+        </form>
+      </ng-container>
+
+      <!-- Profile Info Display -->
+      <ng-template #viewMode>
+        <h1 class="display-4 mb-3">{{ user?.name }}</h1>
+        <p class="text-muted lead mb-4">{{ user?.email }}</p>
+        <p class="mb-2"><strong>Phone:</strong> {{ user?.phone }}</p>
+        <p class="mb-2"><strong>Address:</strong> {{ user?.address }}</p>
+        <button class="btn btn-warning" (click)="toggleEditMode()">Edit Profile</button>
+      </ng-template>
     </div>
   </div>
 </div>
+
 <h2 class="m-3">Posts</h2>
 
-<!----post component-->
 <div class="row">
   <div class="col-12 col-md-8">
     <div class="row">
       <ng-container *ngFor="let post of posts">
-        <app-post
-          [postAuthorImage]="post.authorImage"
-          [postAuthorName]="post.authorName"
-          [postContent]="post.postContent"
-          [postDate]="post.postDate"
-          [postImage]="post.postImage"
-          [comments]="post.comments"
-          [postId]="post.id"
-          [InProfile]="true"
-        ></app-post>
+        <app-post [postAuthorImage]="post.authorImage" [postAuthorName]="post.authorName"
+          [postContent]="post.postContent" [postDate]="post.postDate" [postImage]="post.postImage"
+          [comments]="post.comments" [postId]="post.id" [InProfile]="true"></app-post>
       </ng-container>
     </div>
   </div>

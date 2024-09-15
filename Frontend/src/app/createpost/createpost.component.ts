@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { BASE_URL, getUser, headers, user } from '../util/app.constants'; // Replace with your actual BASE_URL
 import { NgIf } from '@angular/common'; // You may use this for conditional rendering
+import { UserService } from '../user.service'; // Import UserService
+import { BASE_URL, headers } from '../util/app.constants'; // Ensure BASE_URL and headers are correct
+
 @Component({
   selector: 'app-createpost',
   standalone: true,
@@ -10,18 +12,19 @@ import { NgIf } from '@angular/common'; // You may use this for conditional rend
   templateUrl: './createpost.component.html',
   styleUrls: ['./createpost.component.css'],
 })
-export class CreatepostComponent implements OnInit{
+export class CreatepostComponent implements OnInit {
   postContent: string = ''; // Holds the content of the post
   selectedImage: File | null = null; // Holds the selected image file
-  userId = getUser()?.id;
+  userId: number | null = null; // User ID from UserService
+  userProfileImage: string | null = null; // User profile image URL from UserService
   
-  constructor(private http: HttpClient) {
-    console.log('userId', this.userId);
-  }
-  
-  image : any = null;
+  constructor(private http: HttpClient, private userService: UserService) {}
+
   ngOnInit(): void {
-    this.image = getUser()?.profileImageUrl
+    this.userService.getUser().subscribe(user => {
+      this.userId = user?.id || null;
+      this.userProfileImage = user?.profileImageUrl || null;
+    });
   }
 
   // Function to handle file input change
@@ -36,6 +39,11 @@ export class CreatepostComponent implements OnInit{
       return;
     }
 
+    if (this.userId === null) {
+      console.error('User ID is not available');
+      return;
+    }
+
     // Create a FormData object to hold the form fields and file
     const formData = new FormData();
     formData.append('Content', this.postContent);
@@ -45,7 +53,7 @@ export class CreatepostComponent implements OnInit{
     }
 
     // Send POST request to the backend
-    this.http.post(`${BASE_URL}/posts`, formData,{  headers }).subscribe({
+    this.http.post(`${BASE_URL}/posts`, formData, { headers }).subscribe({
       next: (response) => {
         console.log('Post created successfully', response);
         this.resetForm();

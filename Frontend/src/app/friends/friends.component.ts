@@ -2,7 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { FriendCardComponent } from "../friend-card/friend-card.component";
 import { HttpClient } from '@angular/common/http'; 
 import { NgFor } from "@angular/common";
-import {BASE_URL,headers, user,getUser}from '../util/app.constants';  
+import { BASE_URL, headers } from '../util/app.constants';
+import { UserService } from '../user.service'; // Import UserService
+
 @Component({
   selector: "app-friends",
   standalone: true,
@@ -18,24 +20,27 @@ export class FriendsComponent implements OnInit {
     isFriend: boolean;
     friendId: number;
   }[] = [];
+  
+  myId: number | null = null;
 
-  constructor(private http: HttpClient) {}
-  
-  myId = getUser()?.id;
-  
-  
+  constructor(private http: HttpClient, private userService: UserService) {}
+
   ngOnInit() {
-    this.fetchUsersAndFriends();
+    this.userService.getUser().subscribe(user => {
+      this.myId = user?.id;
+      this.fetchUsersAndFriends();
+    });
   }
 
   fetchUsersAndFriends() {
-    this.http.get<{ body: any[] }>(`${BASE_URL}/users`, { headers }).subscribe((usersResponse) => {
+    if (this.myId === null) return;
+
+    this.http.get<{ body: any[] }>(`${BASE_URL}/users`, { headers }).subscribe(usersResponse => {
       const users = usersResponse.body;
 
-      this.http.get<{ body: any[] }>(`${BASE_URL}/follow-management/following/${this.myId}`, { headers }).subscribe((followingResponse) => {
+      this.http.get<{ body: any[] }>(`${BASE_URL}/follow-management/following/${this.myId}`, { headers }).subscribe(followingResponse => {
         const friends = followingResponse.body;
 
-        
         this.friendsList = users
           .filter(user => user.id !== this.myId)  
           .map(user => {

@@ -1,35 +1,18 @@
 <div class="col p-4 rounded-4 bg-white">
   <form (submit)="createPost(); $event.preventDefault()">
     <div class="d-flex gap-3">
-      <img
-        [src]="
-          image
-            ? image
+      <img [src]="
+          userProfileImage
+            ? userProfileImage
             : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'
-        "
-        style="width: 50px; height: 50px"
-        alt="Image"
-        class="rounded-circle"
-      />
-      <input
-        type="text"
-        [(ngModel)]="postContent"
-        name="postContent"
-        class="form-control rounded-5"
-        placeholder="What's on your mind?"
-      />
+        " style="width: 50px; height: 50px" alt="Image" class="rounded-circle" />
+      <input type="text" [(ngModel)]="postContent" name="postContent" class="form-control rounded-5"
+        placeholder="What's on your mind?" />
     </div>
 
     <div class="mt-3">
-      <label for="imageInput" class="form-label"
-        >Choose an image (optional):</label
-      >
-      <input
-        type="file"
-        id="imageInput"
-        (change)="onFileSelected($event)"
-        class="form-control"
-      />
+      <label for="imageInput" class="form-label">Choose an image (optional):</label>
+      <input type="file" id="imageInput" (change)="onFileSelected($event)" class="form-control" />
     </div>
 
     <div class="d-flex justify-content-end mt-3">
