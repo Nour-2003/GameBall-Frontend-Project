@@ -1,23 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; // Import FormsModule
-import { NgIf } from '@angular/common'; // You may use this for conditional rendering
-import { UserService } from '../user.service'; // Import UserService
-import { BASE_URL, headers } from '../util/app.constants'; // Ensure BASE_URL and headers are correct
+import { FormsModule } from '@angular/forms'; 
+import { NgIf } from '@angular/common'; 
+import { UserService } from '../user.service';
+import { BASE_URL, headers } from '../util/app.constants'; 
 
 @Component({
   selector: 'app-createpost',
   standalone: true,
-  imports: [FormsModule, NgIf], // Import necessary modules
+  imports: [FormsModule, NgIf], 
   templateUrl: './createpost.component.html',
   styleUrls: ['./createpost.component.css'],
 })
 export class CreatepostComponent implements OnInit {
-  postContent: string = ''; // Holds the content of the post
-  selectedImage: File | null = null; // Holds the selected image file
-  userId: number | null = null; // User ID from UserService
-  userProfileImage: string | null = null; // User profile image URL from UserService
-  
+  postContent: string = ''; 
+  selectedImage: File | null = null; 
+  userId: number | null = null; 
+  userProfileImage: string | null = null; 
+  imagePreviewUrl: string | null = null; 
+
   constructor(private http: HttpClient, private userService: UserService) {}
 
   ngOnInit(): void {
@@ -27,12 +28,19 @@ export class CreatepostComponent implements OnInit {
     });
   }
 
-  // Function to handle file input change
   onFileSelected(event: any) {
-    this.selectedImage = event.target.files[0]; // Get the selected file
+    const file = event.target.files[0]; 
+    if (file) {
+      this.selectedImage = file;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.imagePreviewUrl = e.target.result; 
+      };
+      reader.readAsDataURL(file); 
+    }
   }
 
-  // Function to handle form submission
   createPost() {
     if (!this.postContent.trim()) {
       console.error('Post content is empty');
@@ -44,15 +52,14 @@ export class CreatepostComponent implements OnInit {
       return;
     }
 
-    // Create a FormData object to hold the form fields and file
+    
     const formData = new FormData();
     formData.append('Content', this.postContent);
-    formData.append('UserId', String(this.userId)); // Convert userId to string
+    formData.append('UserId', String(this.userId)); 
     if (this.selectedImage) {
       formData.append('Image', this.selectedImage);
     }
 
-    // Send POST request to the backend
     this.http.post(`${BASE_URL}/posts`, formData, { headers }).subscribe({
       next: (response) => {
         console.log('Post created successfully', response);
@@ -64,9 +71,9 @@ export class CreatepostComponent implements OnInit {
     });
   }
 
-  // Function to reset the form after submission
   resetForm() {
     this.postContent = '';
     this.selectedImage = null;
+    this.imagePreviewUrl = null;
   }
 }

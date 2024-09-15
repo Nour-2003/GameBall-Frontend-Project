@@ -9,22 +9,20 @@
       <h5>{{ postAuthorName }}</h5>
       <p>{{ postDate }}</p>
     </div>
-    <!-- Flexbox container for edit and delete buttons -->
     <div class="position-absolute end-0 d-flex gap-2">
       <button *ngIf="InProfile" class="btn" (click)="startEditing()">
-        <i class="fas fa-edit fa-2x text-primary"></i>
+        <i class="fas fa-edit fa-xl text-primary"></i>
       </button>
       <button *ngIf="InProfile" class="btn" (click)="deletePost()">
-        <i class="fas fa-trash fa-2x text-danger"></i>
+        <i class="fas fa-trash fa-xl text-danger"></i>
       </button>
     </div>
   </div>
 
-  <!-- Rest of the post content -->
   <div class="post-body">
     <ng-container *ngIf="isEditing; else viewContent">
       <textarea [(ngModel)]="editedContent" rows="3" class="form-control"></textarea>
-      <button class="btn btn-primary mt-2" (click)="saveEdit()">Save</button>
+      <button class="btn btn-primary mt-2 me-3" (click)="saveEdit()">Save</button>
       <button class="btn btn-secondary mt-2" (click)="cancelEdit()">Cancel</button>
     </ng-container>
     <ng-template #viewContent>

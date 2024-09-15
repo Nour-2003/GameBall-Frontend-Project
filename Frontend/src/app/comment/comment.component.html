@@ -30,21 +30,20 @@
           <p class="mb-0">{{ comment }}</p>
         </ng-template>
 
-        <!-- Edit and Delete Buttons for Authorized Users -->
         <div class="position-absolute end-0 bottom-0 d-flex gap-2">
           <button
             *ngIf="IsAuth"
             class="btn"
             (click)="startEditing()"
           >
-            <i class="fas fa-edit fa-2x text-warning"></i>
+            <i class="fas fa-edit fa-xl text-warning"></i>
           </button>
           <button
             *ngIf="IsAuth"
             class="btn"
             (click)="deleteComment()"
           >
-            <i class="fas fa-trash fa-2x text-danger"></i>
+            <i class="fas fa-trash fa-xl text-danger"></i>
           </button>
         </div>
       </div>

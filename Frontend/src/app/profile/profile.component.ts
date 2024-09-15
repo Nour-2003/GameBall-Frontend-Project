@@ -123,7 +123,7 @@ export class ProfileComponent implements OnInit {
             email: this.email, 
             phone: this.phone, 
             address: this.address, 
-            profileImageUrl: response.profileImageUrl 
+            profileImageUrl: response.body 
           };
           this.userService.setUser(updatedUser); // Update user in UserService
           this.editMode = false; // Exit edit mode

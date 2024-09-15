@@ -5,7 +5,7 @@
         alt="Profile Image" class="img-fluid rounded-circle" style="width: 200px; height: 200px;" />
     </div>
 
-    <div class="col-md-8 col-lg-9">
+    <div class="col-md-8 col-lg-9 position-relative">
       <!-- Edit Profile Form -->
       <ng-container *ngIf="editMode; else viewMode">
         <form (submit)="updateProfile()" enctype="multipart/form-data">
@@ -34,18 +34,20 @@
             <input type="file" class="form-control" (change)="onFileSelected($event)" id="profileImage" />
           </div>
 
-          <button type="submit" class="btn btn-primary">Save Changes</button>
+          <button type="submit" class="btn btn-primary me-3">Save Changes</button>
           <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">Cancel</button>
         </form>
       </ng-container>
 
       <!-- Profile Info Display -->
+      <button class="btn position-absolute end-0 top-0" (click)="toggleEditMode()">
+        <i class="fas fa-xl fa-edit"></i>
+      </button>
       <ng-template #viewMode>
         <h1 class="display-4 mb-3">{{ user?.name }}</h1>
         <p class="text-muted lead mb-4">{{ user?.email }}</p>
         <p class="mb-2"><strong>Phone:</strong> {{ user?.phone }}</p>
         <p class="mb-2"><strong>Address:</strong> {{ user?.address }}</p>
-        <button class="btn btn-warning" (click)="toggleEditMode()">Edit Profile</button>
       </ng-template>
     </div>
   </div>
