@@ -34,7 +34,7 @@ export class HomepageComponent implements OnInit {
   constructor(private http: HttpClient) {
     
   }
-  user: any
+  user: any= null;
   ngOnInit(): void {
     this.user = getUser();
     console.log(this.user);

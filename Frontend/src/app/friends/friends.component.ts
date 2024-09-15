@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FriendCardComponent } from "../friend-card/friend-card.component";
 import { HttpClient } from '@angular/common/http'; 
 import { NgFor } from "@angular/common";
-import {BASE_URL,headers, user}from '../util/app.constants';  
+import {BASE_URL,headers, user,getUser}from '../util/app.constants';  
 @Component({
   selector: "app-friends",
   standalone: true,
@@ -21,7 +21,7 @@ export class FriendsComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
   
-  myId = user?.id;
+  myId = getUser()?.id;
   
   
   ngOnInit() {

@@ -1,67 +1,39 @@
-<nav *ngIf="user"  class="navbar navbar-expand-lg rounded-bottom-5">
-    <div class="container-fluid">
-    <img
-      src="https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579_640.png"
-      class="rounded-3 mx-3"
-      style="width: 80px; height: 60px;"
-      alt="logo.png"
-    />
+<nav class="navbar navbar-expand-lg rounded-bottom-5">
+  <div class="container-fluid">
+    <img src="https://cdn.pixabay.com/photo/2016/04/15/18/05/computer-1331579_640.png" class="rounded-3 mx-3"
+      style="width: 80px; height: 60px;" alt="logo.png" />
     <a class="navbar-brand fs-3 fw-bold" style="color: #192252;">Friends.</a>
-    <button
-      class="navbar-toggler me-2"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <form class="d-flex mx-auto w-50">
-        
-        <div
-          class="container d-flex justify-content-center py-1 px-2 border border-1 rounded-5"
-        >
+
+        <div class="container d-flex justify-content-center py-1 px-2 border border-1 rounded-5">
           <div class="input-group search-bar rounded-pill">
             <button class="btn btn-sm">
-              <span
-                class="input-group-text bg-transparent border-0 rounded-pill-start"
-                id="search-icon"
-              >
+              <span class="input-group-text bg-transparent border-0 rounded-pill-start" id="search-icon">
                 <i class="fa-solid fa-search text-muted"></i>
               </span>
             </button>
-            <input
-              type="text"
-              class="form-control border-0 shadow-none rounded-pill-end"
-              placeholder="Search for friends, groups, pages"
-              aria-label="Search"
-              aria-describedby="search-icon"
-            />
+            <input type="text" class="form-control border-0 shadow-none rounded-pill-end"
+              placeholder="Search for friends, groups, pages" aria-label="Search" aria-describedby="search-icon" />
           </div>
         </div>
 
       </form>
-      <div
-        class="d-flex justify-content-between align-items-center p-3"
-        style="gap: 15px;"
-      >
-        <div
-          class="d-flex align-items-center justify-content-center"
-          style="
+      <div class="d-flex justify-content-between align-items-center p-3" style="gap: 15px;">
+        <div class="d-flex align-items-center justify-content-center" style="
             background-color: #f0f0f0;
             border-radius: 50px;
             padding: 10px;
             width: 40px;
             height: 40px;
             position: relative;
-          "
-        >
+          ">
           <i class="fa-solid fa-envelope" style="color: #192252;"></i>
-          <div
-            style="
+          <div style="
               position: absolute;
               top: -1px;
               right: -1px;
@@ -69,23 +41,18 @@
               border-radius: 50%;
               width: 10px;
               height: 10px;
-            "
-          ></div>
+            "></div>
         </div>
-        <div
-          class="d-flex align-items-center justify-content-center"
-          style="
+        <div class="d-flex align-items-center justify-content-center" style="
             background-color: #f0f0f0;
             border-radius: 50px;
             padding: 10px;
             width: 40px;
             height: 40px;
             position: relative;
-          "
-        >
+          ">
           <i class="fa-solid fa-bell" style="color: #192252;"></i>
-          <div
-            style="
+          <div style="
               position: absolute;
               top: -1px;
               right: -1px;
@@ -93,18 +60,13 @@
               border-radius: 50%;
               width: 10px;
               height: 10px;
-            "
-          ></div>
+            "></div>
         </div>
-        <img
-        [src]="
+        <img [src]="
           image 
           ? image
-          : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'"
-          class="rounded-circle"
-          style="width: 40px; height: 40px;"
-          alt="profile.png"
-        />
+          : 'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_640.png'" class="rounded-circle"
+          style="width: 40px; height: 40px;" alt="profile.png" />
       </div>
     </div>
   </div>

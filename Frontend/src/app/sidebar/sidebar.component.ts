@@ -1,25 +1,26 @@
 import { Component, NgModule, OnInit } from "@angular/core";
 import { RouterLink, RouterModule } from "@angular/router";
-import { user } from "../util/app.constants";
+import { getUser } from "../util/app.constants";
 import { NgClass, NgIf } from "@angular/common";
 import { Router } from "@angular/router";
 
 @Component({
   selector: "app-sidebar",
   standalone: true,
-  imports: [RouterModule,NgIf,NgClass,RouterLink],
+  imports: [RouterModule, NgIf, NgClass, RouterLink],
   templateUrl: "./sidebar.component.html",
   styleUrl: "./sidebar.component.css",
 })
 export class SidebarComponent implements OnInit {
-  user = user;
+  user: any= null;
   ngOnInit(): void {
+    this.user = getUser();
   }
   constructor(private router: Router){
     
   }
   logout() {
-    if (user) {
+    if (this.user) {
       localStorage.removeItem('user'); // Remove user from localStorage
       this.router.navigate(['/login']);
       

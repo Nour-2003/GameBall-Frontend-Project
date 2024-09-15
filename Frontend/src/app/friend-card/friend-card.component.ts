@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
-import { BASE_URL, headers, user } from '../util/app.constants'; // Ensure BASE_URL is correct
+import { BASE_URL, headers, user,getUser } from '../util/app.constants'; // Ensure BASE_URL is correct
 
 @Component({
   selector: 'app-friend-card',
@@ -16,7 +16,7 @@ export class FriendCardComponent {
   @Input() isFriend: boolean = false;
   @Input() friendId: number = 0;
 
-  user = user?.id; 
+  user = getUser()?.id; 
 
   constructor(private http: HttpClient) {}
 

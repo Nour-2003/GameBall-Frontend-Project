@@ -1,15 +1,12 @@
-<div class="container-fluid">
-  <div class="row flex-nowrap">
-    <div *ngIf="user" class="col-3 px-0" style="background-color: #f3f6f8;">
-      <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-        <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
-          <li class="nav-item w-100 rounded-2">
-            <a href="#" routerLinkActive="active" routerLink="/home" class="nav-link align-middle px-0"
-              style="color: inherit;">
-              <div class="container d-flex">
-                <div class="row">
-                  <div class="col d-flex align-items-center">
-                    <div class="d-flex align-items-center justify-content-center me-3" style="
+<div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+  <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100" id="menu">
+    <li class="nav-item w-100 rounded-2">
+      <a href="#" routerLinkActive="active" routerLink="/home" class="nav-link align-middle px-0"
+        style="color: inherit;">
+        <div class="container d-flex">
+          <div class="row">
+            <div class="col d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-center me-3" style="
                         background-color: #bacfed;
                         border-radius: 50px;
                         padding: 10px;
@@ -17,22 +14,21 @@
                         height: 40px;
                         position: relative;
                       ">
-                      <i class="fa-solid fa-house" style="color: #2f80ed;"></i>
-                    </div>
-                    <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Home</span>
-                  </div>
-                </div>
+                <i class="fa-solid fa-house" style="color: #2f80ed;"></i>
               </div>
-            </a>
-          </li>
+              <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Home</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
 
-          <li class="nav-item w-100 rounded-2">
-            <a routerLinkActive="active" routerLink="/friends" class="nav-link align-middle px-0"
-              style="color: inherit;">
-              <div class="container d-flex">
-                <div class="row">
-                  <div class="col d-flex align-items-center">
-                    <div class="d-flex align-items-center justify-content-center me-3" style="
+    <li class="nav-item w-100 rounded-2">
+      <a routerLinkActive="active" routerLink="/friends" class="nav-link align-middle px-0" style="color: inherit;">
+        <div class="container d-flex">
+          <div class="row">
+            <div class="col d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-center me-3" style="
                         background-color: #f3decc;
                         border-radius: 50px;
                         padding: 10px;
@@ -40,21 +36,20 @@
                         height: 40px;
                         position: relative;
                       ">
-                      <i class="fa-solid fa-users" style="color: #f2994a;"></i>
-                    </div>
-                    <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Friends</span>
-                  </div>
-                </div>
+                <i class="fa-solid fa-users" style="color: #f2994a;"></i>
               </div>
-            </a>
-          </li>
-          <li class="nav-item w-100 rounded-2">
-            <a routerLinkActive="active" routerLink="/profile" class="nav-link align-middle px-0"
-              style="color: inherit;">
-              <div class="container d-flex">
-                <div class="row">
-                  <div class="col d-flex align-items-center">
-                    <div class="d-flex align-items-center justify-content-center me-3" style="
+              <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Friends</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item w-100 rounded-2">
+      <a routerLinkActive="active" routerLink="/profile" class="nav-link align-middle px-0" style="color: inherit;">
+        <div class="container d-flex">
+          <div class="row">
+            <div class="col d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-center me-3" style="
                         background-color: #c0decf;
                         border-radius: 50px;
                         padding: 10px;
@@ -62,20 +57,21 @@
                         height: 40px;
                         position: relative;
                       ">
-                      <i class="fa-solid fa-user" style="color: #309d5f;"></i>
-                    </div>
-                    <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Profile</span>
-                  </div>
-                </div>
+                <i class="fa-solid fa-user" style="color: #309d5f;"></i>
               </div>
-            </a>
-          </li>
-          <li class="nav-item w-100 rounded-2">
-            <a routerLinkActive="active" (click)="logout()" class="nav-link align-middle px-0" style="color: inherit;">
-              <div class="container d-flex">
-                <div class="row">
-                  <div class="col d-flex align-items-center">
-                    <div class="d-flex align-items-center justify-content-center me-3" style="
+              <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Profile</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    <li class="nav-item w-100 rounded-2">
+      <a routerLinkActive="active" (click)="logout()" routerLink="/login" class="nav-link align-middle px-0"
+        style="color: inherit;">
+        <div class="container d-flex">
+          <div class="row">
+            <div class="col d-flex align-items-center">
+              <div class="d-flex align-items-center justify-content-center me-3" style="
                         background-color: #c0decf;
                         border-radius: 50px;
                         padding: 10px;
@@ -83,20 +79,14 @@
                         height: 40px;
                         position: relative;
                       ">
-                      <i class="fa-solid fa-user" style="color: #309d5f;"></i>
-                    </div>
-                    <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Logout</span>
-                  </div>
-                </div>
+                <i class="fa-solid fa-user" style="color: #309d5f;"></i>
               </div>
-            </a>
-          </li>
-        </ul>
-        <hr />
-      </div>
-    </div>
-    <div [ngClass]="user ? 'col-9' : 'col-12'" class="py-3" style="background-color: #f3f6f8; min-height: 100vh;">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
+              <span class="ms-1 fs-6 d-none d-sm-inline fw-bold text-black">Logout</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+  <hr />
 </div>
