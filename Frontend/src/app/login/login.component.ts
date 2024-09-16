@@ -53,7 +53,7 @@ export class LoginComponent {
           return of(null); 
         })
       )
-      .subscribe(response => {
+      .subscribe((response: any) => {
         this.loading = false; // Hide loader
         if (response && (response as any).statusCode === 201) {
           const responseBody = (response as any).body;
@@ -63,7 +63,7 @@ export class LoginComponent {
           this.router.navigate(['home']);
         } else {
           console.log('Login failed');
-          this.errorMessage = 'Invalid email or password. Please try again.';
+          this.errorMessage = response.message;
           console.log(response);
         }
       });
