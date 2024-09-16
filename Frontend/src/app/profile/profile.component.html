@@ -34,7 +34,15 @@
             <input type="file" class="form-control" (change)="onFileSelected($event)" id="profileImage" />
           </div>
 
-          <button type="submit" class="btn btn-primary me-3">Save Changes</button>
+          <div class="mb-3">
+            <img *ngIf="profileImagePreview" [src]="profileImagePreview" alt="Profile Image Preview"
+              class="img-fluid rounded-circle" style="width: 150px; height: 150px;" />
+          </div>
+
+          <button type="submit" class="btn btn-primary me-3" [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Save Changes
+          </button>
           <button type="button" class="btn btn-secondary" (click)="toggleEditMode()">Cancel</button>
         </form>
       </ng-container>
@@ -59,17 +67,10 @@
   <div class="col-12 col-md-8">
     <div class="row">
       <ng-container *ngFor="let post of posts">
-        <app-post 
-          [postAuthorImage]="post.authorImage" 
-          [postAuthorName]="post.authorName"
-          [postContent]="post.postContent" 
-          [postDate]="post.postDate" 
-          [postImage]="post.postImage"
-          [comments]="post.comments" 
-          [postId]="post.id" 
-          [InProfile]="true"
-          (postDeleted)="onPostDeleted($event)" 
-        ></app-post>
+        <app-post [postAuthorImage]="post.authorImage" [postAuthorName]="post.authorName"
+          [postContent]="post.postContent" [postDate]="post.postDate" [postImage]="post.postImage"
+          [comments]="post.comments" [postId]="post.id" [InProfile]="true"
+          (postDeleted)="onPostDeleted($event)"></app-post>
       </ng-container>
     </div>
   </div>

@@ -28,7 +28,7 @@ interface PostComment {
   standalone: true,
   imports: [PostComponent, NgFor, FormsModule, NgIf],
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css'], 
+  styleUrls: ['./profile.component.css'],
 })
 export class ProfileComponent implements OnInit {
   posts: Post[] = [];
@@ -41,6 +41,9 @@ export class ProfileComponent implements OnInit {
   phone: string = '';
   address: string = '';
   profileImage: File | null = null;
+  profileImagePreview: string | ArrayBuffer | null = null; // New property
+
+  loading: boolean = false; // Add this variable
 
   constructor(private http: HttpClient, private userService: UserService) {}
 
@@ -89,6 +92,13 @@ export class ProfileComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.profileImage = file;
+
+      // Create a FileReader to read the file
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.profileImagePreview = e.target.result; // Set the preview URL
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
     }
   }
 
@@ -110,6 +120,8 @@ export class ProfileComponent implements OnInit {
       formData.append('ProfileImage', this.profileImage);
     }
 
+    this.loading = true; // Set loading to true
+
     this.http.put(`${BASE_URL}/users/${this.user.id}`, formData, { headers })
       .subscribe({
         next: (response: any) => {
@@ -129,6 +141,9 @@ export class ProfileComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error updating profile', error);
+        },
+        complete: () => {
+          this.loading = false; // Set loading to false when complete
         }
       });
   }
