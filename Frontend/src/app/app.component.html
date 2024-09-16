@@ -1,11 +1,10 @@
-<app-navbar *ngIf="user"> </app-navbar>
+<app-navbar *ngIf="user" ></app-navbar>
 <div class="container-fluid">
     <div class="row flex-nowrap">
-        <div *ngIf="user" class="col-3 px-0" style="background-color: #f3f6f8;">
-
+        <div *ngIf="user" class="col-3 px-0 d-none d-md-block" style="background-color: #f3f6f8;">
             <app-sidebar></app-sidebar>
         </div>
-        <div [ngClass]="user ? 'col-9' : 'col-12'" class="py-3" style="background-color: #f3f6f8; min-height: 100vh;">
+        <div [ngClass]="user ? 'col-12 col-md-9' : 'col-12'" class="py-3" style="background-color: #f3f6f8; min-height: 100vh;">
             <router-outlet></router-outlet>
         </div>
     </div>

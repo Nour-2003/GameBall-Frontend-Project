@@ -23,7 +23,22 @@ export class NavbarComponent implements OnInit {
     });
   }
 
+  navigateToHome() {
+    this.router.navigate(['home']);
+  }
+
+  navigateToFriends() {
+    this.router.navigate(['friends']);
+  }
+
   navigateToProfile() {
     this.router.navigate(['profile']);
+  }
+
+  logout() {
+    if (this.user) {
+      this.userService.setUser(null); // This removes the user from localStorage
+      this.router.navigate(['/login']); // Redirect to login
+    }
   }
 }
