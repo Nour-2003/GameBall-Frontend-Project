@@ -62,8 +62,12 @@
       </div>
     </div>
   </div>
+
   <hr class="mx-2" />
+
+  <!-- CommentComponent to display comments with edit and delete options -->
   <app-comment *ngFor="let comment of comments" [author]="comment.authorName" [comment]="comment.content"
-    [authorImage]="comment.authorImage" [postId]="postId" [commentId]="comment.commentId"
-    [IsAuth]="comment.isAuth" ></app-comment>
+    [authorImage]="comment.authorImage" [postId]="postId" [commentId]="comment.commentId" [IsAuth]="comment.isAuth"
+    (commentDeleted)="handleCommentDeleted(comment.commentId)">
+  </app-comment>
 </div>

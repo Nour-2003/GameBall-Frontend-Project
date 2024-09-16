@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-comment',
   standalone: true,
-  imports: [NgIf,FormsModule],
+  imports: [NgIf, FormsModule],
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.css'],
 })
@@ -20,12 +20,11 @@ export class CommentComponent {
   @Input() IsAuth: boolean = false;
   @Output() commentDeleted = new EventEmitter<number>();
 
-  isEditing: boolean = false; 
-  editedComment: string = ''; 
+  isEditing: boolean = false;
+  editedComment: string = '';
 
   constructor(private http: HttpClient) {}
 
-  
   deleteComment() {
     if (confirm("Are you sure you want to delete this comment?")) {
       this.http.delete(`${BASE_URL}/posts/${this.postId}/comments`, {
@@ -45,7 +44,7 @@ export class CommentComponent {
 
   startEditing() {
     this.isEditing = true;
-    this.editedComment = this.comment; 
+    this.editedComment = this.comment;
   }
 
   updateComment(updatedContent: string) {
@@ -57,8 +56,8 @@ export class CommentComponent {
     this.http.put(`${BASE_URL}/posts/${this.postId}/comments`, requestBody, { headers }).subscribe({
       next: (response: any) => {
         console.log("Comment updated successfully", response);
-        this.comment = updatedContent; 
-        this.isEditing = false; 
+        this.comment = updatedContent;
+        this.isEditing = false;
       },
       error: (error) => {
         console.error("Error updating comment", error);

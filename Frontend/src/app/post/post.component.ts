@@ -31,13 +31,14 @@ export class PostComponent implements OnInit {
   @Input() postAuthorName: string = '';
   @Input() postAuthorImage: string = '';
 
-  @Output() postDeleted = new EventEmitter<number>(); // Event emitter to notify parent about the deleted post
+  @Output() postDeleted = new EventEmitter<number>();
 
   handleCommentDeleted(commentId: number) {
     this.comments = this.comments.filter(
       (comment) => comment.commentId !== commentId
     );
   }
+
   userId: number = 0;
   newCommentContent: string = '';
   isEditing: boolean = false;
@@ -66,39 +67,35 @@ export class PostComponent implements OnInit {
       userId: this.userId,
     };
 
-    this.http
-      .post(`${BASE_URL}/posts/comments`, requestBody, { headers })
-      .subscribe({
-        next: (response: any) => {
-          console.log('Comment posted successfully', response);
-          const newComment: PostComment = {
-            authorImage: this.authorImage || 'assets/default.png',
-            authorName: this.authorName,
-            content: this.newCommentContent,
-          };
+    this.http.post(`${BASE_URL}/posts/comments`, requestBody, { headers }).subscribe({
+      next: (response: any) => {
+        console.log('Comment posted successfully', response);
+        const newComment: PostComment = {
+          authorImage: this.authorImage || 'assets/default.png',
+          authorName: this.authorName,
+          content: this.newCommentContent,
+        };
 
-          this.comments.push(newComment);
-          this.newCommentContent = '';
-        },
-        error: (error) => {
-          console.error('Error posting comment', error);
-        },
-      });
+        this.comments.push(newComment);
+        this.newCommentContent = '';
+      },
+      error: (error) => {
+        console.error('Error posting comment', error);
+      },
+    });
   }
 
   deletePost() {
     if (confirm('Are you sure you want to delete this post?')) {
-      this.http
-        .delete(`${BASE_URL}/posts/${this.postId}`, { headers })
-        .subscribe({
-          next: (response: any) => {
-            console.log('Post deleted successfully', response);
-            this.postDeleted.emit(this.postId); // Emit the post ID after deletion
-          },
-          error: (error) => {
-            console.error('Error deleting post', error);
-          },
-        });
+      this.http.delete(`${BASE_URL}/posts/${this.postId}`, { headers }).subscribe({
+        next: (response: any) => {
+          console.log('Post deleted successfully', response);
+          this.postDeleted.emit(this.postId);
+        },
+        error: (error) => {
+          console.error('Error deleting post', error);
+        },
+      });
     }
   }
 
@@ -112,18 +109,16 @@ export class PostComponent implements OnInit {
       content: updatedContent,
     };
 
-    this.http
-      .put(`${BASE_URL}/posts/${this.postId}`, requestBody, { headers })
-      .subscribe({
-        next: (response: any) => {
-          console.log('Post updated successfully', response);
-          this.postContent = updatedContent;
-          this.isEditing = false;
-        },
-        error: (error) => {
-          console.error('Error updating post', error);
-        },
-      });
+    this.http.put(`${BASE_URL}/posts/${this.postId}`, requestBody, { headers }).subscribe({
+      next: (response: any) => {
+        console.log('Post updated successfully', response);
+        this.postContent = updatedContent;
+        this.isEditing = false;
+      },
+      error: (error) => {
+        console.error('Error updating post', error);
+      },
+    });
   }
 
   startEditing() {
