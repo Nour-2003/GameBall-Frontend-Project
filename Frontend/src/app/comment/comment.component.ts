@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL, headers } from '../util/app.constants';
 import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-comment',
@@ -26,20 +27,32 @@ export class CommentComponent {
   constructor(private http: HttpClient) {}
 
   deleteComment() {
-    if (confirm("Are you sure you want to delete this comment?")) {
-      this.http.delete(`${BASE_URL}/posts/${this.postId}/comments`, {
-        headers,
-        body: { commentId: this.commentId },
-      }).subscribe({
-        next: (response: any) => {
-          console.log("Comment deleted successfully", response);
-          this.commentDeleted.emit(this.commentId);  // Emit the comment ID to the parent component
-        },
-        error: (error) => {
-          console.error("Error deleting comment", error);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you really want to delete this comment?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.http.delete(`${BASE_URL}/posts/${this.postId}/comments`, {
+            headers,
+            body: { commentId: this.commentId },
+          }).subscribe({
+            next: (response: any) => {
+              Swal.fire('Deleted!', 'Your comment has been deleted.', 'success');
+              this.commentDeleted.emit(this.commentId);  // Emit the comment ID to the parent component
+            },
+            error: (error) => {
+              Swal.fire('Error!', 'There was an error deleting your comment.', 'error');
+              console.error("Error deleting comment", error);
+            }
+          });
         }
       });
-    }
+  
   }
 
   startEditing() {

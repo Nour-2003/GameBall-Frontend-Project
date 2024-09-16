@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { NgFor } from '@angular/common';
 import { CommentComponent } from '../comment/comment.component';
@@ -86,17 +87,27 @@ export class PostComponent implements OnInit {
   }
 
   deletePost() {
-    if (confirm('Are you sure you want to delete this post?')) {
-      this.http.delete(`${BASE_URL}/posts/${this.postId}`, { headers }).subscribe({
-        next: (response: any) => {
-          console.log('Post deleted successfully', response);
-          this.postDeleted.emit(this.postId);
-        },
-        error: (error) => {
-          console.error('Error deleting post', error);
-        },
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you really want to delete this post?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it'
+    }).then((result: { isConfirmed: any; }) => {
+      if (result.isConfirmed) {
+        this.http.delete(`${BASE_URL}/posts/${this.postId}`, { headers }).subscribe({
+          next: (response: any) => {
+            Swal.fire('Deleted!', 'Your post has been deleted.', 'success');
+            this.postDeleted.emit(this.postId);
+          },
+          error: (error) => {
+            Swal.fire('Error!', 'There was an error deleting your post.', 'error');
+            console.error('Error deleting post', error);
+          },
+        });
+      }
+    });
   }
 
   updatePost(updatedContent: string) {

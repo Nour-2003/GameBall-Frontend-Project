@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common'; 
 import { UserService } from '../user.service';
 import { BASE_URL, headers } from '../util/app.constants'; 
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-createpost',
@@ -41,7 +42,6 @@ export class CreatepostComponent implements OnInit {
       reader.readAsDataURL(file); 
     }
   }
-
   createPost() {
     if (!this.postContent.trim()) {
       console.error('Post content is empty');
@@ -62,8 +62,15 @@ export class CreatepostComponent implements OnInit {
       formData.append('Image', this.selectedImage);
     }
 
-    this.http.post(`${BASE_URL}/posts`, formData, { headers }).subscribe({
+    this.http.post(`${BASE_URL}/posts`, formData, { headers, observe: 'response' }).subscribe({
       next: (response) => {
+        if (response.status === 200) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Post Created',
+            text: 'Your post has been created successfully!',
+          });
+        }
         console.log('Post created successfully', response);
         this.resetForm();
         this.isLoading = false; // Reset loading state
