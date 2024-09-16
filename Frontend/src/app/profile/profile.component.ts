@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { BASE_URL, headers } from '../util/app.constants';
 import { FormsModule } from '@angular/forms'; 
 import { UserService } from '../user.service';
+import Swal from 'sweetalert2';
 
 interface Post {
   id: number;
@@ -125,22 +126,42 @@ export class ProfileComponent implements OnInit {
     this.http.put(`${BASE_URL}/users/${this.user.id}`, formData, { headers })
       .subscribe({
         next: (response: any) => {
-          console.log('Profile updated successfully', response);
+          console.log('Backend response:', response);
 
-          // Update local storage with new user data
-          const updatedUser = { 
-            ...this.user, 
-            name: this.name, 
-            email: this.email, 
-            phone: this.phone, 
-            address: this.address, 
-            profileImageUrl: response.body 
-          };
-          this.userService.setUser(updatedUser); // Update user in UserService
-          this.editMode = false; // Exit edit mode
+          if(response.statusCode === 200) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Profile Updated',
+              text: 'Your profile has been updated successfully!',
+            });
+            
+            // Update local storage with new user data
+            const updatedUser = { 
+              ...this.user, 
+              name: this.name, 
+              email: this.email, 
+              phone: this.phone, 
+              address: this.address, 
+              profileImageUrl: response.body 
+            };
+            this.userService.setUser(updatedUser); // Update user in UserService
+            this.editMode = false; // Exit edit mode
+          }
+          else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Profile Update Failed',
+              text: 'An error occurred while updating your profile!',
+            });
+          }
         },
         error: (error) => {
           console.error('Error updating profile', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Profile Update Failed',
+            text: 'An error occurred while updating your profile!',
+          });
         },
         complete: () => {
           this.loading = false; // Set loading to false when complete
